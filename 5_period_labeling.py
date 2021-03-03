@@ -1,16 +1,19 @@
 # -*- coding: utf-8 -*-
 """
-Created on Mon Feb 22 15:26:42 2021
+Created on Wed Mar  3 16:26:43 2021
 
 @author: user
 """
+
+
+
+
 
 import glob
 import os
 import pandas as pd
 import  talib
 import numpy as np
-import math
 
 from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import classification_report
@@ -131,8 +134,8 @@ up_label =[]
 down_label= []
 
 for i in range(0,73):
-    up_label.append(0.25*std_return[i])
-    down_label.append(-0.25 * std_return[i])
+    up_label.append(1*std_return[i])
+    down_label.append(-1 * std_return[i])
     
     
 
@@ -161,10 +164,37 @@ for i in range(0,73):
     df[i]=df[i].drop(['index'],axis=1)
 
 
+###########modeling
+
 #model train/test set 생성  
 train_data=[]
 test_data=[]
 
+
+train_data_2017=[]
+test_data_2017=[]
+
+train_data_2018=[]
+test_data_2018=[]
+
+train_data_2019=[]
+test_data_2019=[]
+
+
+train_data_2020=[]
+test_data_2020=[]
+
+train_data_2017_2=[]
+test_data_2017_2=[]
+
+train_data_2018_2=[]
+test_data_2018_2=[]
+
+train_data_2019_2=[]
+test_data_2019_2=[]
+
+train_data_2020_2=[]
+test_data_2020_2=[]
 ############2016
 for i in range(0,73):
     train=None
@@ -176,29 +206,744 @@ for i in range(0,73):
     test_data.append(df[i][test])
     
 
-
-
 for i in range(0,73):
     train_data[i]=train_data[i].drop(['Date','Open','High','Low','Close','Volume','diff'],axis=1)
     test_data[i]=test_data[i].drop(['Date','Open','High','Low','Close','Volume','diff'],axis=1)
+    
+
+###############2017_1
+for i in range(0,73):
+    train=None
+    train=df[i]['Date'].str.contains('2009|2010|2011|2012|2013|2014|2015|2016')
+    train_data_2017.append(df[i][train])
+for i in range(0,73):
+    test=None      
+    test=df[i]['Date'].str.contains('2017')
+    test_data_2017.append(df[i][test])
+    
+
+for i in range(0,73):
+    train_data_2017[i]=train_data_2017[i].drop(['Date','Open','High','Low','Close','Volume','diff'],axis=1)
+    test_data_2017[i]=test_data_2017[i].drop(['Date','Open','High','Low','Close','Volume','diff'],axis=1)
+
+############2018_1
+for i in range(0,73):
+    train=None
+    train=df[i]['Date'].str.contains('2009|2010|2011|2012|2013|2014|2015|2016|2017')
+    train_data_2018.append(df[i][train])
+for i in range(0,73):   
+    test=None
+    test=df[i]['Date'].str.contains('2018')
+    test_data_2018.append(df[i][test])
+    
+
+for i in range(0,73):
+    train_data_2018[i]=train_data_2018[i].drop(['Date','Open','High','Low','Close','Volume','diff'],axis=1)
+    test_data_2018[i]=test_data_2018[i].drop(['Date','Open','High','Low','Close','Volume','diff'],axis=1)
+################2019_1
+for i in range(0,73):
+    train=None
+    train=df[i]['Date'].str.contains('2009|2010|2011|2012|2013|2014|2015|2016|2017|2018')
+    train_data_2019.append(df[i][train])
+for i in range(0,73):  
+    test=None
+    test=df[i]['Date'].str.contains('2019')
+    test_data_2019.append(df[i][test])
+    
+
+for i in range(0,73):
+    train_data_2019[i]=train_data_2019[i].drop(['Date','Open','High','Low','Close','Volume','diff'],axis=1)
+    test_data_2019[i]=test_data_2019[i].drop(['Date','Open','High','Low','Close','Volume','diff'],axis=1)
+################2020_1
+for i in range(0,73):
+    train=None
+    train=df[i]['Date'].str.contains('2009|2010|2011|2012|2013|2014|2015|2016|2017|2018|2019')
+    train_data_2020.append(df[i][train])
+for i in range(0,73):
+    test=None    
+    test=df[i]['Date'].str.contains('2020')
+    test_data_2020.append(df[i][test])
+    
+
+for i in range(0,73):
+    train_data_2020[i]=train_data_2020[i].drop(['Date','Open','High','Low','Close','Volume','diff'],axis=1)
+    test_data_2020[i]=test_data_2020[i].drop(['Date','Open','High','Low','Close','Volume','diff'],axis=1)
+
+
+#############2017_2
+for i in range(0,73):
+    train=None
+    train=df[i]['Date'].str.contains('2010|2011|2012|2013|2014|2015|2016')
+    train_data_2017_2.append(df[i][train])
+for i in range(0,73):
+    test=None    
+    test=df[i]['Date'].str.contains('2017')
+    test_data_2017_2.append(df[i][test])
+    
+
+for i in range(0,73):
+    train_data_2017_2[i]=train_data_2017_2[i].drop(['Date','Open','High','Low','Close','Volume','diff'],axis=1)
+    test_data_2017_2[i]=test_data_2017_2[i].drop(['Date','Open','High','Low','Close','Volume','diff'],axis=1)
+############2018_2
+for i in range(0,73):
+    train=None
+    train=df[i]['Date'].str.contains('2011|2012|2013|2014|2015|2016|2017')
+    train_data_2018_2.append(df[i][train])
+for i in range(0,73):
+    test=None    
+    test=df[i]['Date'].str.contains('2018')
+    test_data_2018_2.append(df[i][test])
+    
+
+for i in range(0,73):
+    train_data_2018_2[i]=train_data_2018_2[i].drop(['Date','Open','High','Low','Close','Volume','diff'],axis=1)
+    test_data_2018_2[i]=test_data_2018_2[i].drop(['Date','Open','High','Low','Close','Volume','diff'],axis=1)
+
+#############2019_2
+for i in range(0,73):
+    train=None
+    train=df[i]['Date'].str.contains('2012|2013|2014|2015|2016|2017|2018')
+    train_data_2019_2.append(df[i][train])
+for i in range(0,73):
+    test=None    
+    test=df[i]['Date'].str.contains('2019')
+    test_data_2019_2.append(df[i][test])
+    
+
+for i in range(0,73):
+    train_data_2019_2[i]=train_data_2019_2[i].drop(['Date','Open','High','Low','Close','Volume','diff'],axis=1)
+    test_data_2019_2[i]=test_data_2019_2[i].drop(['Date','Open','High','Low','Close','Volume','diff'],axis=1)
+
+###############2020_2
+for i in range(0,73):
+    train=None
+    train=df[i]['Date'].str.contains('2013|2014|2015|2016|2017|2018|2019')
+    train_data_2020_2.append(df[i][train])
+for i in range(0,73):  
+    test=None
+    test=df[i]['Date'].str.contains('2020')
+    test_data_2020_2.append(df[i][test])
+    
+
+for i in range(0,73):
+    train_data_2020_2[i]=train_data_2020_2[i].drop(['Date','Open','High','Low','Close','Volume','diff'],axis=1)
+    test_data_2020_2[i]=test_data_2020_2[i].drop(['Date','Open','High','Low','Close','Volume','diff'],axis=1)
 
 
 
 
-import matplotlib.pyplot as plt
-import seaborn as sns
-import matplotlib.font_manager as fm
 
-font_path = r'C:/Users/user/Desktop/연구/NanumBarunGothic.ttf'
-fontprop = fm.FontProperties(fname=font_path, size=18)
+#x_train,y_train,x_test,y_test
+
+x_train =[]
+y_train =[]
+x_test=[]
+y_test=[]
+
+x_train_1=[]
+y_train_1=[]
+x_test_1=[]
+y_test_1=[]
 
 
-for i in range(0,5):
-    train_data[i]['Label'].value_counts().plot(kind='bar')
-    plt.title('{}_train data label'.format(file_list[i]),fontproperties=fontprop)
-    plt.show()
+x_train_2=[]
+y_train_2=[]
+x_test_2=[]
+y_test_2=[]
 
 
-label_count=[]
-for i in range(0,5):
-   label_count.append(train_data[i]['Label'].value_counts())
+x_train_3=[]
+y_train_3=[]
+x_test_3=[]
+y_test_3=[]
+
+x_train_4=[]
+y_train_4=[]
+x_test_4=[]
+y_test_4=[]
+
+x_train_5=[]
+y_train_5=[]
+x_test_5=[]
+y_test_5=[]
+
+
+x_train_6=[]
+y_train_6=[]
+x_test_6=[]
+y_test_6=[]
+
+
+x_train_7=[]
+y_train_7=[]
+x_test_7=[]
+y_test_7=[]
+
+
+x_train_8=[]
+y_train_8=[]
+x_test_8=[]
+y_test_8=[]
+
+#######2016
+for i in range(0,73):
+    x_train.append(train_data[i].drop(['Label'],axis=1))
+    y_train.append(train_data[i]['Label'])
+    
+    x_test.append(test_data[i].drop(['Label'],axis=1))
+    y_test.append(test_data[i]['Label']) 
+########2017_1
+for i in range(0,73):
+    x_train_1.append(train_data_2017[i].drop(['Label'],axis=1))
+    y_train_1.append(train_data_2017[i]['Label'])
+    
+    x_test_1.append(test_data_2017[i].drop(['Label'],axis=1))
+    y_test_1.append(test_data_2017[i]['Label']) 
+
+#########2018_1
+for i in range(0,73):
+    x_train_2.append(train_data_2018[i].drop(['Label'],axis=1))
+    y_train_2.append(train_data_2018[i]['Label'])
+    
+    x_test_2.append(test_data_2018[i].drop(['Label'],axis=1))
+    y_test_2.append(test_data_2018[i]['Label']) 
+
+##########2019_1
+for i in range(0,73):
+    x_train_3.append(train_data_2019[i].drop(['Label'],axis=1))
+    y_train_3.append(train_data_2019[i]['Label'])
+    
+    x_test_3.append(test_data_2019[i].drop(['Label'],axis=1))
+    y_test_3.append(test_data_2019[i]['Label']) 
+
+#############2020_1
+for i in range(0,73):
+    x_train_4.append(train_data_2020[i].drop(['Label'],axis=1))
+    y_train_4.append(train_data_2020[i]['Label'])
+    
+    x_test_4.append(test_data_2020[i].drop(['Label'],axis=1))
+    y_test_4.append(test_data_2020[i]['Label']) 
+    
+##############2017_@
+for i in range(0,73):
+    x_train_5.append(train_data_2017_2[i].drop(['Label'],axis=1))
+    y_train_5.append(train_data_2017_2[i]['Label'])
+    
+    x_test_5.append(test_data_2017_2[i].drop(['Label'],axis=1))
+    y_test_5.append(test_data_2017_2[i]['Label'])
+
+
+############2018_2
+for i in range(0,73):
+    x_train_6.append(train_data_2018_2[i].drop(['Label'],axis=1))
+    y_train_6.append(train_data_2018_2[i]['Label'])
+    
+    x_test_6.append(test_data_2018_2[i].drop(['Label'],axis=1))
+    y_test_6.append(test_data_2018_2[i]['Label']) 
+
+############2019_2
+for i in range(0,73):
+    x_train_7.append(train_data_2019_2[i].drop(['Label'],axis=1))
+    y_train_7.append(train_data_2019_2[i]['Label'])
+    
+    x_test_7.append(test_data_2019_2[i].drop(['Label'],axis=1))
+    y_test_7.append(test_data_2019_2[i]['Label']) 
+
+############2020_2
+for i in range(0,73):
+    x_train_8.append(train_data_2020_2[i].drop(['Label'],axis=1))
+    y_train_8.append(train_data_2020_2[i]['Label'])
+    
+    x_test_8.append(test_data_2020_2[i].drop(['Label'],axis=1))
+    y_test_8.append(test_data_2020_2[i]['Label']) 
+
+
+    
+#모델링
+from sklearn.linear_model import LogisticRegression
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.naive_bayes import GaussianNB
+from sklearn.svm import SVC
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.neural_network import MLPClassifier
+from sklearn.ensemble import VotingClassifier
+from sklearn.ensemble import GradientBoostingClassifier
+
+
+
+
+pred=[]
+pred_decision=[]
+pred_naive=[]
+pred_randomforest=[]
+pred_svm=[]
+pred_knn=[]
+pred_neural=[]
+pred_voting=[]
+pred_gbm=[]
+
+pred_1=[]
+pred_decision_1=[]
+pred_naive_1=[]
+pred_randomforest_1=[]
+pred_svm_1=[]
+pred_knn_1=[]
+pred_neural_1=[]
+pred_voting_1=[]
+pred_gbm_1=[]
+
+
+pred_2=[]
+pred_decision_2=[]
+pred_naive_2=[]
+pred_randomforest_2=[]
+pred_svm_2=[]
+pred_knn_2=[]
+pred_neural_2=[]
+pred_voting_2=[]
+pred_gbm_2=[]
+
+pred_3=[]
+pred_decision_3=[]
+pred_naive_3=[]
+pred_randomforest_3=[]
+pred_svm_3=[]
+pred_knn_3=[]
+pred_neural_3=[]
+pred_voting_3=[]
+pred_gbm_3=[]
+
+pred_4=[]
+pred_decision_4=[]
+pred_naive_4=[]
+pred_randomforest_4=[]
+pred_svm_4=[]
+pred_knn_4=[]
+pred_neural_4=[]
+pred_voting_4=[]
+pred_gbm_4=[]
+
+pred_5=[]
+pred_decision_5=[]
+pred_naive_5=[]
+pred_randomforest_5=[]
+pred_svm_5=[]
+pred_knn_5=[]
+pred_neural_5=[]
+pred_voting_5=[]
+pred_gbm_5=[]
+
+
+pred_6=[]
+pred_decision_6=[]
+pred_naive_6=[]
+pred_randomforest_6=[]
+pred_svm_6=[]
+pred_knn_6=[]
+pred_neural_6=[]
+pred_voting_6=[]
+pred_gbm_6=[]
+
+
+pred_7=[]
+pred_decision_7=[]
+pred_naive_7=[]
+pred_randomforest_7=[]
+pred_svm_7=[]
+pred_knn_7=[]
+pred_neural_7=[]
+pred_voting_7=[]
+pred_gbm_7=[]
+
+pred_8=[]
+pred_decision_8=[]
+pred_naive_8=[]
+pred_randomforest_8=[]
+pred_svm_8=[]
+pred_knn_8=[]
+pred_neural_8=[]
+pred_voting_8=[]
+pred_gbm_8=[]
+
+for i in range(0,73):
+    #logistic
+    logistic =LogisticRegression()
+    logistic.fit(x_train[i],y_train[i])
+    
+    pred.append(logistic.predict(x_test[i]))
+    #2017
+    logistic.fit(x_train_1[i],y_train_1[i])
+    
+    pred_1.append(logistic.predict(x_test_1[i]))
+    #2018
+    logistic.fit(x_train_2[i],y_train_2[i])
+    
+    pred_2.append(logistic.predict(x_test_2[i]))
+    #2019
+    logistic.fit(x_train_3[i],y_train_3[i])
+    
+    pred_3.append(logistic.predict(x_test_3[i]))
+    #2020
+    logistic.fit(x_train_4[i],y_train_4[i])
+    
+    pred_4.append(logistic.predict(x_test_4[i]))
+    
+    #2017_2
+    logistic.fit(x_train_5[i],y_train_5[i])
+    
+    pred_5.append(logistic.predict(x_test_5[i]))
+    #2018_2
+    logistic.fit(x_train_6[i],y_train_6[i])
+    
+    pred_6.append(logistic.predict(x_test_6[i]))
+    #2019_@
+    logistic.fit(x_train_7[i],y_train_7[i])
+    
+    pred_7.append(logistic.predict(x_test_7[i]))
+    #2020_2
+    logistic.fit(x_train_8[i],y_train_8[i])
+    
+    pred_8.append(logistic.predict(x_test_8[i]))
+    
+    
+    ##############decision tree
+    dt=DecisionTreeClassifier()
+    
+    dt.fit(x_train[i],y_train[i])
+    pred_decision.append(dt.predict(x_test[i]))
+    
+    #2017
+    dt.fit(x_train_1[i],y_train_1[i])
+    
+    pred_decision_1.append(dt.predict(x_test_1[i]))
+    #2018
+    dt.fit(x_train_2[i],y_train_2[i])
+    
+    pred_decision_2.append(dt.predict(x_test_2[i]))
+    #2019
+    dt.fit(x_train_3[i],y_train_3[i])
+    
+    pred_decision_3.append(dt.predict(x_test_3[i]))
+    #2020
+    dt.fit(x_train_4[i],y_train_4[i])
+    
+    pred_decision_4.append(dt.predict(x_test_4[i]))
+    
+    #2017_2
+    dt.fit(x_train_5[i],y_train_5[i])
+    
+    pred_decision_5.append(dt.predict(x_test_5[i]))
+    #2018_2
+    dt.fit(x_train_6[i],y_train_6[i])
+    
+    pred_decision_6.append(dt.predict(x_test_6[i]))
+    #2019_@
+    dt.fit(x_train_7[i],y_train_7[i])
+    
+    pred_decision_7.append(dt.predict(x_test_7[i]))
+    #2020_2
+    dt.fit(x_train_8[i],y_train_8[i])
+    
+    pred_decision_8.append(dt.predict(x_test_8[i]))
+    
+    
+    ##############naive
+    naive=GaussianNB()
+    
+    naive.fit(x_train[i],y_train[i])
+    
+    pred_naive.append(naive.predict(x_test[i]))
+    
+    #2017
+    naive.fit(x_train_1[i],y_train_1[i])
+    
+    pred_naive_1.append(naive.predict(x_test_1[i]))
+    #2018
+    naive.fit(x_train_2[i],y_train_2[i])
+    
+    pred_naive_2.append(naive.predict(x_test_2[i]))
+    #2019
+    naive.fit(x_train_3[i],y_train_3[i])
+    
+    pred_naive_3.append(naive.predict(x_test_3[i]))
+    #2020
+    naive.fit(x_train_4[i],y_train_4[i])
+    
+    pred_naive_4.append(naive.predict(x_test_4[i]))
+    
+    #2017_2
+    naive.fit(x_train_5[i],y_train_5[i])
+    
+    pred_naive_5.append(naive.predict(x_test_5[i]))
+    #2018_2
+    naive.fit(x_train_6[i],y_train_6[i])
+    
+    pred_naive_6.append(naive.predict(x_test_6[i]))
+    #2019_@
+    naive.fit(x_train_7[i],y_train_7[i])
+    
+    pred_naive_7.append(naive.predict(x_test_7[i]))
+    #2020_2
+    naive.fit(x_train_8[i],y_train_8[i])
+    
+    pred_naive_8.append(naive.predict(x_test_8[i]))
+    
+    
+    #############randomforest
+    randomforest=RandomForestClassifier()
+    
+    randomforest.fit(x_train[i],y_train[i])
+    
+    pred_randomforest.append(randomforest.predict(x_test[i]))
+    
+    #2017
+    randomforest.fit(x_train_1[i],y_train_1[i])
+    
+    pred_randomforest_1.append(randomforest.predict(x_test_1[i]))
+    #2018
+    randomforest.fit(x_train_2[i],y_train_2[i])
+    
+    pred_randomforest_2.append(randomforest.predict(x_test_2[i]))
+    #2019
+    randomforest.fit(x_train_3[i],y_train_3[i])
+    
+    pred_randomforest_3.append(randomforest.predict(x_test_3[i]))
+    #2020
+    randomforest.fit(x_train_4[i],y_train_4[i])
+    
+    pred_randomforest_4.append(randomforest.predict(x_test_4[i]))
+    
+    #2017_2
+    randomforest.fit(x_train_5[i],y_train_5[i])
+    
+    pred_randomforest_5.append(randomforest.predict(x_test_5[i]))
+    #2018_2
+    randomforest.fit(x_train_6[i],y_train_6[i])
+    
+    pred_randomforest_6.append(randomforest.predict(x_test_6[i]))
+    #2019_@
+    randomforest.fit(x_train_7[i],y_train_7[i])
+    
+    pred_randomforest_7.append(randomforest.predict(x_test_7[i]))
+    #2020_2
+    randomforest.fit(x_train_8[i],y_train_8[i])
+    
+    pred_randomforest_8.append(randomforest.predict(x_test_8[i]))
+    
+    
+    ###############svm
+    svm=SVC()
+    
+    svm.fit(x_train[i],y_train[i])
+    
+    pred_svm.append(svm.predict(x_test[i]))
+    
+    
+    #2017
+    svm.fit(x_train_1[i],y_train_1[i])
+    
+    pred_svm_1.append(svm.predict(x_test_1[i]))
+    #2018
+    svm.fit(x_train_2[i],y_train_2[i])
+    
+    pred_svm_2.append(svm.predict(x_test_2[i]))
+    #2019
+    svm.fit(x_train_3[i],y_train_3[i])
+    
+    pred_svm_3.append(svm.predict(x_test_3[i]))
+    #2020
+    svm.fit(x_train_4[i],y_train_4[i])
+    
+    pred_svm_4.append(svm.predict(x_test_4[i]))
+    
+    #2017_2
+    svm.fit(x_train_5[i],y_train_5[i])
+    
+    pred_svm_5.append(svm.predict(x_test_5[i]))
+    #2018_2
+    svm.fit(x_train_6[i],y_train_6[i])
+    
+    pred_svm_6.append(svm.predict(x_test_6[i]))
+    #2019_@
+    svm.fit(x_train_7[i],y_train_7[i])
+    
+    pred_svm_7.append(svm.predict(x_test_7[i]))
+    #2020_2
+    svm.fit(x_train_8[i],y_train_8[i])
+    
+    pred_svm_8.append(svm.predict(x_test_8[i]))
+    
+    
+    ###############knn
+    knn=KNeighborsClassifier()
+    
+    knn.fit(x_train[i],y_train[i])
+    
+    pred_knn.append(knn.predict(x_test[i]))
+    
+    
+    #2017
+    knn.fit(x_train_1[i],y_train_1[i])
+    
+    pred_knn_1.append(knn.predict(x_test_1[i]))
+    #2018
+    knn.fit(x_train_2[i],y_train_2[i])
+    
+    pred_knn_2.append(knn.predict(x_test_2[i]))
+    #2019
+    knn.fit(x_train_3[i],y_train_3[i])
+    
+    pred_knn_3.append(knn.predict(x_test_3[i]))
+    #2020
+    knn.fit(x_train_4[i],y_train_4[i])
+    
+    pred_knn_4.append(knn.predict(x_test_4[i]))
+    
+    #2017_2
+    knn.fit(x_train_5[i],y_train_5[i])
+    
+    pred_knn_5.append(knn.predict(x_test_5[i]))
+    #2018_2
+    knn.fit(x_train_6[i],y_train_6[i])
+    
+    pred_knn_6.append(knn.predict(x_test_6[i]))
+    #2019_@
+    knn.fit(x_train_7[i],y_train_7[i])
+    
+    pred_knn_7.append(knn.predict(x_test_7[i]))
+    #2020_2
+    knn.fit(x_train_8[i],y_train_8[i])
+    
+    pred_knn_8.append(knn.predict(x_test_8[i]))
+    
+    ###############nueral
+    
+    nueral=MLPClassifier()
+    
+    nueral.fit(x_train[i],y_train[i])
+    
+    pred_neural.append(nueral.predict(x_test[i]))
+    
+    
+    #2017
+    nueral.fit(x_train_1[i],y_train_1[i])
+    
+    pred_neural_1.append(nueral.predict(x_test_1[i]))
+    #2018
+    nueral.fit(x_train_2[i],y_train_2[i])
+    
+    pred_neural_2.append(nueral.predict(x_test_2[i]))
+    #2019
+    nueral.fit(x_train_3[i],y_train_3[i])
+    
+    pred_neural_3.append(nueral.predict(x_test_3[i]))
+    #2020
+    nueral.fit(x_train_4[i],y_train_4[i])
+    
+    pred_neural_4.append(nueral.predict(x_test_4[i]))
+    
+    #2017_2
+    nueral.fit(x_train_5[i],y_train_5[i])
+    
+    pred_neural_5.append(nueral.predict(x_test_5[i]))
+    #2018_2
+    nueral.fit(x_train_6[i],y_train_6[i])
+    
+    pred_neural_6.append(nueral.predict(x_test_6[i]))
+    #2019_@
+    nueral.fit(x_train_7[i],y_train_7[i])
+    
+    pred_neural_7.append(nueral.predict(x_test_7[i]))
+    #2020_2
+    nueral.fit(x_train_8[i],y_train_8[i])
+    
+    pred_neural_8.append(nueral.predict(x_test_8[i]))
+    
+    
+    
+    ###########voting
+    
+    voting=VotingClassifier(estimators=[('decison',dt),('knn',knn),('logisitc',logistic),('svm',svm),
+                                        ('naive',naive),('nueral',nueral)],voting='hard')
+    
+    voting.fit(x_train[i],y_train[i])
+    
+    pred_voting.append(voting.predict(x_test[i]))
+    
+    
+    #2017
+    voting.fit(x_train_1[i],y_train_1[i])
+    
+    pred_voting_1.append(voting.predict(x_test_1[i]))
+    #2018
+    voting.fit(x_train_2[i],y_train_2[i])
+    
+    pred_voting_2.append(voting.predict(x_test_2[i]))
+    #2019
+    voting.fit(x_train_3[i],y_train_3[i])
+    
+    pred_voting_3.append(voting.predict(x_test_3[i]))
+    #2020
+    voting.fit(x_train_4[i],y_train_4[i])
+    
+    pred_voting_4.append(voting.predict(x_test_4[i]))
+    
+    #2017_2
+    voting.fit(x_train_5[i],y_train_5[i])
+    
+    pred_voting_5.append(voting.predict(x_test_5[i]))
+    #2018_2
+    voting.fit(x_train_6[i],y_train_6[i])
+    
+    pred_voting_6.append(voting.predict(x_test_6[i]))
+    #2019_@
+    voting.fit(x_train_7[i],y_train_7[i])
+    
+    pred_voting_7.append(voting.predict(x_test_7[i]))
+    #2020_2
+    voting.fit(x_train_8[i],y_train_8[i])
+    
+    pred_voting_8.append(voting.predict(x_test_8[i]))
+    
+    ########gbm
+    gbm=GradientBoostingClassifier(random_state=0)
+    
+    gbm.fit(x_train[i],y_train[i])
+    
+    pred_gbm.append(gbm.predict(x_test[i]))
+    
+    
+    #2017
+    gbm.fit(x_train_1[i],y_train_1[i])
+    
+    pred_gbm_1.append(gbm.predict(x_test_1[i]))
+    #2018
+    gbm.fit(x_train_2[i],y_train_2[i])
+    
+    pred_gbm_2.append(gbm.predict(x_test_2[i]))
+    #2019
+    gbm.fit(x_train_3[i],y_train_3[i])
+    
+    pred_gbm_3.append(gbm.predict(x_test_3[i]))
+    #2020
+    gbm.fit(x_train_4[i],y_train_4[i])
+    
+    pred_gbm_4.append(gbm.predict(x_test_4[i]))
+    
+    #2017_2
+    gbm.fit(x_train_5[i],y_train_5[i])
+    
+    pred_gbm_5.append(gbm.predict(x_test_5[i]))
+    #2018_2
+    gbm.fit(x_train_6[i],y_train_6[i])
+    
+    pred_gbm_6.append(gbm.predict(x_test_6[i]))
+    #2019_@
+    gbm.fit(x_train_7[i],y_train_7[i])
+    
+    pred_gbm_7.append(gbm.predict(x_test_7[i]))
+    #2020_2
+    gbm.fit(x_train_8[i],y_train_8[i])
+    
+    pred_gbm_8.append(gbm.predict(x_test_8[i]))
