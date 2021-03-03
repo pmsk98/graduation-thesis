@@ -15,7 +15,7 @@ ex) train(2010 ~2016) / test(2017)  ->  train(2011~2017) / test(2018)
 
 train set과 test set은 위의 방식으로 진행
 
-###Model
+### Model
 1. logistic regression
 2. decsion tree
 3. naive bayes
@@ -28,7 +28,7 @@ train set과 test set은 위의 방식으로 진행
 - 별도의 파라미터 조정은 없고 default 값으로 진행
 
 
-###Position label 생성
+### Position label 생성
 - 예측값을 기준으로 Position 지정
 - ex)
 - 2016-01-04 down 
