@@ -45,5 +45,11 @@ train set과 test set은 위의 방식으로 진행
 - Profit factor
 
 
+### ratio 분석
+- method1/ method2
+- 모델간 비교
+- 누적수익
+- 라벨링 기준에 따라 비교
+
 
 
