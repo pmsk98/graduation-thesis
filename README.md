@@ -43,7 +43,7 @@ train set과 test set은 위의 방식으로 진행
 - Average loss
 - Payoff ratio
 - Profit factor
-
+- inf 처리된 항목 제외 후 ratio 평균 처리
 
 ### ratio 분석
 - method1/ method2
@@ -51,5 +51,16 @@ train set과 test set은 위의 방식으로 진행
 - 누적수익
 - 라벨링 기준에 따라 비교
 - 데이터 개수 확인(라벨링 기준에 따라 다름)
+- MDD column 생성(2016~2020년)
+- 테스트 기간을 한번에 설정했으면 같은 방식으로 모든 지표들 통일
 
 
+
+
+### ratio 분석 방법
+
+- 1.모델별로 ratio 평균 비교
+- 2.validation 검증 방법별로 비교(fix / window)
+- 3.표준편차 별로 ratio 평균 비교
+- 4.5,10,20기간 변동성과 diff 라벨링 별로 ratio 평균 비교
+- 논문 참고해서 표로 정리할지 생각
