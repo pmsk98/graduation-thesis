@@ -1,10 +1,4 @@
 
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Mar 22 16:11:10 2021
-
-@author: user
-"""
 
 test_2019=[]
 
@@ -214,6 +208,21 @@ for i in range(0,73):
         else:
             print(i)
 
+gain_no=[]
+loss_no=[]
+gain_cumsum=[]
+loss_cumsum=[]
+
+
+
+for i in range(0,73):
+    gain_no.append(profit_2[i].groupby('average').size()[0])
+    loss_no.append(profit_2[i].groupby('average').size()[1])
+    gain_cumsum.append(profit_2[i].groupby('average').sum()['Close'][0])
+    loss_cumsum.append(profit_2[i].groupby('average').sum()['Close'][1])
+
+
+
 win=[]
 for i in range(0,73):
     try:
@@ -300,8 +309,16 @@ payoff=pd.DataFrame({'Payoff ratio':payoff})
 
 factor=pd.DataFrame({'Profit factor':factor})
 
+gain_number=pd.DataFrame({'gain_no':gain_no})
+
+loss_number=pd.DataFrame({'loss_no':loss_no})
+
+total_gain =pd.DataFrame({'total_gain':gain_cumsum})
+
+total_loss=pd.DataFrame({'total_loss':loss_cumsum})
+
 #2017_2
-result5 =pd.concat([year,stock_name,trade,win,real_gain,loss,payoff,factor],axis=1)
+result5 =pd.concat([year,stock_name,trade,win,real_gain,loss,payoff,factor,gain_number,loss_number,total_gain,total_loss],axis=1)
 
 ##############################################2018
 
@@ -513,6 +530,21 @@ for i in range(0,73):
             profit_2[i]['Close'][e]=profit_2[i]['Close'][e] * -1
         else:
             print(i)
+gain_no=[]
+loss_no=[]
+gain_cumsum=[]
+loss_cumsum=[]
+
+
+
+for i in range(0,73):
+    gain_no.append(profit_2[i].groupby('average').size()[0])
+    loss_no.append(profit_2[i].groupby('average').size()[1])
+    gain_cumsum.append(profit_2[i].groupby('average').sum()['Close'][0])
+    loss_cumsum.append(profit_2[i].groupby('average').sum()['Close'][1])
+
+
+
 
 win=[]
 for i in range(0,73):
@@ -600,8 +632,17 @@ payoff=pd.DataFrame({'Payoff ratio':payoff})
 
 factor=pd.DataFrame({'Profit factor':factor})
 
+gain_number=pd.DataFrame({'gain_no':gain_no})
+
+loss_number=pd.DataFrame({'loss_no':loss_no})
+
+total_gain =pd.DataFrame({'total_gain':gain_cumsum})
+
+total_loss=pd.DataFrame({'total_loss':loss_cumsum})
+
 #2018_2
-result6 =pd.concat([year,stock_name,trade,win,real_gain,loss,payoff,factor],axis=1)
+result6 = pd.concat([year,stock_name,trade,win,real_gain,loss,payoff,factor,gain_number,loss_number,total_gain,total_loss],axis=1)
+
 
 #################################################2019
 
@@ -814,6 +855,21 @@ for i in range(0,73):
         else:
             print(i)
 
+gain_no=[]
+loss_no=[]
+gain_cumsum=[]
+loss_cumsum=[]
+
+
+
+for i in range(0,73):
+    gain_no.append(profit_2[i].groupby('average').size()[0])
+    loss_no.append(profit_2[i].groupby('average').size()[1])
+    gain_cumsum.append(profit_2[i].groupby('average').sum()['Close'][0])
+    loss_cumsum.append(profit_2[i].groupby('average').sum()['Close'][1])
+
+
+
 win=[]
 for i in range(0,73):
     try:
@@ -900,8 +956,16 @@ payoff=pd.DataFrame({'Payoff ratio':payoff})
 
 factor=pd.DataFrame({'Profit factor':factor})
 
+gain_number=pd.DataFrame({'gain_no':gain_no})
+
+loss_number=pd.DataFrame({'loss_no':loss_no})
+
+total_gain =pd.DataFrame({'total_gain':gain_cumsum})
+
+total_loss=pd.DataFrame({'total_loss':loss_cumsum})
+
 #2019_2
-result7 =pd.concat([year,stock_name,trade,win,real_gain,loss,payoff,factor],axis=1)
+result7 =pd.concat([year,stock_name,trade,win,real_gain,loss,payoff,factor,gain_number,loss_number,total_gain,total_loss],axis=1)
 
 #######################################################2020
 
@@ -1112,6 +1176,21 @@ for i in range(0,73):
             profit_2[i]['Close'][e]=profit_2[i]['Close'][e] * -1
         else:
             print(i)
+gain_no=[]
+loss_no=[]
+gain_cumsum=[]
+loss_cumsum=[]
+
+
+
+for i in range(0,73):
+    gain_no.append(profit_2[i].groupby('average').size()[0])
+    loss_no.append(profit_2[i].groupby('average').size()[1])
+    gain_cumsum.append(profit_2[i].groupby('average').sum()['Close'][0])
+    loss_cumsum.append(profit_2[i].groupby('average').sum()['Close'][1])
+
+
+
 
 win=[]
 for i in range(0,73):
@@ -1198,9 +1277,16 @@ loss=pd.DataFrame({'Average loss($)':loss})
 payoff=pd.DataFrame({'Payoff ratio':payoff})
 
 factor=pd.DataFrame({'Profit factor':factor})
+gain_number=pd.DataFrame({'gain_no':gain_no})
+
+loss_number=pd.DataFrame({'loss_no':loss_no})
+
+total_gain =pd.DataFrame({'total_gain':gain_cumsum})
+
+total_loss=pd.DataFrame({'total_loss':loss_cumsum})
 
 #2020_2
-result8 =pd.concat([year,stock_name,trade,win,real_gain,loss,payoff,factor],axis=1)
+result8 =pd.concat([year,stock_name,trade,win,real_gain,loss,payoff,factor,gain_number,loss_number,total_gain,total_loss],axis=1)
 
 
 final_result2=pd.concat([result,result5,result6,result7,result8])

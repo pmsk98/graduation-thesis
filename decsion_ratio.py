@@ -330,8 +330,7 @@ total_loss=pd.DataFrame({'total_loss':loss_cumsum})
 
 
 #2016
-result =pd.concat([year,stock_name,trade,win,real_gain,loss,payoff,factor],axis=1)
-
+result =pd.concat([year,stock_name,trade,win,real_gain,loss,payoff,factor,gain_number,loss_number,total_gain,total_loss],axis=1)
 
 ##############################################################2017
 test_2019=[]
